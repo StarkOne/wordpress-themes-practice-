@@ -58,30 +58,30 @@ header *{
 	background: url(assets/img/logo.png) no-repeat;
 	background-size: 100%;
 }
-nav{
+.topmenu{
 	float: right;
 	padding: 20px 0;
 }
-nav li, .menu-button{
+.topmenu li, .menu-button{
 	padding: 10px;
 	margin: 0 5px;
 }
 .menu-button{
 	display: none;
 }
-nav li{
+.topmenu li{
 	display: inline-block;
 }
-nav a{
+.topmenu a{
 	text-decoration: none;
 	display: block;
 }
 
-nav li.current-menu-item a,
-nav a.active {
+.topmenu li.current-menu-item a,
+.topmenu a.active {
 	color: #8a6540;
 }
-nav a:hover{
+.topmenu a:hover{
 	color: #f2b77d;
 }
 .header-bottom{
@@ -104,7 +104,7 @@ main, main *, aside{
 }
 main{
 	float: left;
-	max-width: 68%;
+	width: 68%;
 	margin-bottom: 20px;
 	color: #bdbdbd;
 }
@@ -114,23 +114,28 @@ main h2{
 main span{
 	line-height: 25px;
 }
-main section{
+main article{
 	float: left;
-	max-width: 47%;
+	width: 47%;
 	margin-bottom: 10px;
 	margin-right: 3%;
 }
-main section:nth-child(2n+3){
+main article:nth-child(2n+3){
 	clear: both;
 }
-main section a{
+main .page-full {
+	width: 100%;
+}
+main article a{
 	display: block;
 	padding: 4px;
 	border: 1px solid rgba(184,184,184,0.3);
 	border-radius: 5px;
 }
-main section img{
+main article img{
 	width: 100%;
+	height: auto;
+	max-width: 100%;
 }
 .main-footer{
 	clear: both;
@@ -267,7 +272,7 @@ footer>span{
 		float: none;
 		text-align:center;
 	}
-	nav{
+	.topmenu{
 		float: none;
 		text-align:center;
 		padding: 0;
@@ -280,7 +285,7 @@ footer>span{
 	main{
 		border-bottom: 1px solid #eee;
 	}
-	main section{
+	main article{
 		margin: 0 1.5%;
 	}
 	.main-footer a{
@@ -308,7 +313,7 @@ footer>span{
 }
 
 @media screen and (max-width: 480px) {
-	nav {
+	.topmenu {
 		position:relative;
 	}
 	.menu-button{
@@ -316,21 +321,21 @@ footer>span{
 		cursor: pointer;
 		display: block;
 	}
-	nav ul{
+	.topmenu ul{
 		background: #fff;
 		position: absolute;
 		width:100%;
 		display: none;
 		border-top: 1px solid #eee;
 	}
-	nav li{
+	.topmenu li{
 		display: block;
 		border-bottom: 1px solid #eee;
 	}
-	nav a:hover{
+	.topmenu a:hover{
 		background: #fafafa;
 	}
-	main section{
+	main article{
 		float: none;
 		max-width:none;
 	}

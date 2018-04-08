@@ -1,34 +1,26 @@
 <?php get_header(); ?>
 
 	<main class="clearfix">
-		<section>
-			<a href= "#"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/1st_Design.jpg" alt= "1st Design"></a>
-			<h2>Fictional Design Studio Layout</h2>
-			<span>This work description goes here. Just 
-	simple and short text about this work.</span>
-		</section>
-		<section>
-			<a href= "#"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/2nd_Design.png" alt= "2nd Design"></a>
-			<h2>Creative Mouse Design</h2>
-			<span>This work description goes here. Just 
-	simple and short text about this work.</span>
-		</section>
-		<section>
-			<a href= "#"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/3rd_Design.png" alt= "3rd Design"></a>
-			<h2>Real Estate Company Layout</h2>
-			<span>This work description goes here. Just 
-	simple and short text about this work.</span>
-		</section>
-		<section>
-			<a href= "#"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/4th_Design.png" alt= "4th Design"></a>
-			<h2>Web Design Fan - Blog for designers</h2>
-			<span>This work description goes here. Just 
-	simple and short text about this work.</span>
-		</section>
+		<div class="postsFlow clearfix">
+		<?php if(have_posts()):
+			while (have_posts()): the_post(); ?>
+				<article>
+					<a href="<?php echo get_the_permalink(); ?>">
+						<?php the_post_thumbnail('thumbnail'); ?>
+					</a>
+					<h2><?php the_title(); ?></h2>
+					<span><?php echo CFS()->get('intro'); ?></span>
+				</article>
+			<?php endwhile; ?>
+		<?php else: ?>
+			<h2>Записей нет</h2>
+		<?php endif; ?>
+		</div>
 		<div  class="main-footer clearfix">
 			<a href= "#">Our Blog</a>
 			<a href= "#">See Portfolio</a>
 		</div>
+		<?php the_posts_pagination(); ?>
 	</main>
 <?php get_sidebar(); ?>
 <?php get_footer(); ?>

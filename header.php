@@ -9,8 +9,8 @@
 		<div  class="wrapper">
 			<header>
 				<div class="header-top clearfix">
-					<a href="<?php get_bloginfo('template_url'); ?>" class="logo"><?php bloginfo('name'); ?></a>
-					<nav>
+					<a href="<?php echo home_url(); ?>" class="logo"><?php bloginfo('name'); ?></a>
+					<nav class="topmenu">
 						<div class="menu-button">MENU</div>
 						<?php wp_nav_menu( array(
 							'theme_location'  => 'top',
@@ -32,7 +32,7 @@
 						) ); ?>
 					</nav>
 				</div>
-				<?php if (is_active_sidebar('sidebar-top') ) : ?>
+				<?php if (!is_page() && is_active_sidebar('sidebar-top') ) : ?>
 					<div class="header-bottom">
 						<?php dynamic_sidebar('sidebar-top'); ?>
 					</div>
