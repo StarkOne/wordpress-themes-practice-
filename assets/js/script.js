@@ -1,37 +1,15 @@
-window.onload=function(  ){
-	document.querySelector('h2.menu').onclick=function(){
-		var list=this.parentNode.querySelector("ul");
-		if (getComputedStyle(this).cursor==='pointer'){
-			if (list.style.display!='block') {
-				list.style.display='block';
-			} else {
-					list.removeAttribute('style');
-			};
-		};
-	};
-	
-	document.querySelector('.secondery-navigation').onmouseleave=function(){
+$(document).ready(function(){
+	$(".menu").on("click","a", function (event) {
+		//отменяем стандартную обработку нажатия по ссылке
+		event.preventDefault();
+
+		//забираем идентификатор бока с атрибута href
+		var id  = $(this).attr('href'),
+
+		//узнаем высоту от начала страницы до блока на который ссылается якорь
+			top = $(id).offset().top - 40;
 		
-		if (getComputedStyle(this.querySelector('.menu')).cursor==='pointer'){	
-			this.querySelector('ul').removeAttribute('style');
-		};
-	};
-	
-	document.querySelector('.menu-button').onclick=function(){
-		var list=this.parentNode.querySelector('ul');
-		if (getComputedStyle(this).display==='block'){
-			if (list.style.display!='block') {
-				list.style.display='block';
-			} else {
-				list.removeAttribute('style');
-			};
-		};
-	};
-	
-	document.querySelector('nav').onmouseleave=function(){
-		
-		if (getComputedStyle(this.querySelector('.menu-button')).display==='block'){	
-			this.querySelector('ul').removeAttribute('style');
-		};
-	};
-}
+		//анимируем переход на расстояние - top за 1500 мс
+		$('body,html').animate({scrollTop: top}, 500);
+	});
+});

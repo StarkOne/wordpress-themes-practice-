@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width">
 		<?php wp_head(); ?>
 	</head>
-	<body>
+	<body <?php body_class(); ?>>
 		<div  class="wrapper">
 			<header>
 				<div class="header-top clearfix">
