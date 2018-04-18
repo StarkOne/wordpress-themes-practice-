@@ -8,6 +8,7 @@
 	add_filter( 'widget_text', 'do_shortcode' );
 
 	add_action('init', 'test_register_post_types');
+	add_action('wp_head', 'test_js_vars');
 	add_shortcode('test_recent', 'test_recent');
 	
 	add_filter( 'the_content', 'conts' );
@@ -62,11 +63,11 @@
 		wp_enqueue_script( 'jq', 'https://code.jquery.com/jquery-3.3.1.min.js' , [], null , true);
 	}
 
-
 	function test_after_setup() {
 		register_nav_menu( 'top', 'Шапка' );
 		register_nav_menu( 'footer', 'Подвал' );
 		register_nav_menu( 'land', 'лендинг' );
+
 
 		add_theme_support( 'post-thumbnails' );
 		add_theme_support( 'title-tag' );
@@ -138,8 +139,106 @@ function test_register_post_types(){
 		'rewrite'             => true,
 		'query_var'           => true,
 	) );
-}
 
+	register_post_type('flats', array(
+		'label'  => null,
+		'labels' => array(
+			'name'               => 'Квартиры', // основное название для типа записи
+			'singular_name'      => 'Квартира', // название для одной записи этого типа
+			'add_new'            => 'Добавить Квартиру', // для добавления новой записи
+			'add_new_item'       => 'Добавление Квартиры', // заголовка у вновь создаваемой записи в админ-панели.
+			'edit_item'          => 'Редактирование Квартиры', // для редактирования типа записи
+			'new_item'           => 'Новое Квартиры', // текст новой записи
+			'view_item'          => 'Смотреть Квартиры', // для просмотра записи этого типа.
+			'search_items'       => 'Искать Квартиры', // для поиска по этим типам записи
+			'not_found'          => 'Не найдено', // если в результате поиска ничего не было найдено
+			'not_found_in_trash' => 'Не найдено в корзине', // если не было найдено в корзине
+			'parent_item_colon'  => '', // для родителей (у древовидных типов)
+			'menu_name'          => 'Квартиры', // название меню
+		),
+		'description'         => '',
+		'public'              => true,
+		'publicly_queryable'  => null, // зависит от public
+		'exclude_from_search' => null, // зависит от public
+		'show_ui'             => null, // зависит от public
+		'show_in_menu'        => null, // показывать ли в меню адмнки
+		'show_in_admin_bar'   => null, // по умолчанию значение show_in_menu
+		'show_in_nav_menus'   => null, // зависит от public
+		'show_in_rest'        => null, // добавить в REST API. C WP 4.7
+		'rest_base'           => null, // $post_type. C WP 4.7
+		'menu_position'       => null,
+		'menu_icon'           => null, 
+		//'capability_type'   => 'post',
+		//'capabilities'      => 'post', // массив дополнительных прав для этого типа записи
+		//'map_meta_cap'      => null, // Ставим true чтобы включить дефолтный обработчик специальных прав
+		'hierarchical'        => false,
+		'supports'            => array('title','editor', 'thumbnail'), // 'title','editor','author','thumbnail','excerpt','trackbacks','custom-fields','comments','revisions','page-attributes','post-formats'
+		'taxonomies'          => array(),
+		'has_archive'         => true,
+		'rewrite'             => true,//array('slag' => '%city%'),
+		'query_var'           => true,
+	) );
+
+	register_taxonomy( 'city', array('flats'), array(
+		'label'                 => '', // определяется параметром $labels->name
+		'labels'                => array(
+			'name'              => 'Города',
+			'singular_name'     => 'Город',
+			'search_items'      => 'Search Город',
+			'all_items'         => 'All Города',
+			'view_item '        => 'View Город',
+			'parent_item'       => 'Parent Город',
+			'parent_item_colon' => 'Parent Город:',
+			'edit_item'         => 'Edit Город',
+			'update_item'       => 'Update Город',
+			'add_new_item'      => 'Add New Город',
+			'new_item_name'     => 'New Город Name',
+			'menu_name'         => 'Города',
+		),
+		'description'           => '', // описание таксономии
+		'public'                => true,
+		'hierarchical'          => false
+	));
+
+	register_taxonomy( 'rooms', array('flats'), array(
+		'label'                 => '', // определяется параметром $labels->name
+		'labels'                => array(
+			'name'              => 'кол-во комнат',
+			'singular_name'     => 'кол-во комнат',
+			'search_items'      => 'кол-во комнат',
+			'all_items'         => 'All комнаты',
+			'view_item '        => 'View комнату',
+			'edit_item'         => 'Edit комнату',
+			'update_item'       => 'Update комнату',
+			'add_new_item'      => 'Add New Город',
+			'new_item_name'     => 'New комнат Name',
+			'menu_name'         => 'комнаты',
+		),
+		'description'           => '', // описание таксономии
+		'public'                => true,
+		'hierarchical'          => false
+	));
+}
+	function test_js_vars() {
+		$vars = [
+			'ajax_url' => admin_url('admin-ajax.php')
+		];
+
+		echo "<script>window.wp = ". json_encode($vars) ."</script>";
+	}
+	add_action( 'wp_ajax_flatapp', 'text_ajax_flatapp' );
+	add_action( 'wp_ajax_nopriv_flatapp', 'text_ajax_flatapp' );
+
+	function text_ajax_flatapp() {
+		/*
+		AJAX запрос обратка(добавить в базу, отправить на почту)
+		*/
+		$res = array('success' => mt_rand(0, 1) ? true : false, 
+						'err' => '123');
+		echo json_encode($res);
+
+		wp_die();
+	}
 	function test_weds() {
 		// параметры по умолчанию
 		$str = '';
@@ -155,3 +254,5 @@ function test_register_post_types(){
 
 		return get_posts( $args );
 	}
+
+	add_image_size('flats-thumb', 400 , 300 , true );
